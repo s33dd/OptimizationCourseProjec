@@ -5,8 +5,138 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OptimizationCourseProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="1200">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.07*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Grid.ColumnSpan="2" Grid.Row="0">
+            <MenuItem Header="Сменить пользователя"></MenuItem>
+            <MenuItem Header="Провести расчёт"></MenuItem>
+        </Menu>
+        <Label Content="Метод оптимизации:" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="230"></ComboBox>
+        <ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="230" Margin="70, 0, 0,0"></ComboBox>
+        <Label Content="Вариант:" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+        <GroupBox Header="Исходные данные" Grid.Row="2" Grid.Column="0" Margin="5, 5, 5, 5" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.2*"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.ColumnSpan="3" Content="Математическая модель:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Grid.Row="0" Grid.ColumnSpan="3"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">
+                    <Label.Content>
+                        <TextBlock>
+                            <Run>V = α ∙ (T</Run>
+                            <Run Typography.Variants="Subscript">1</Run>
+                            <Run> – β ∙ ∆р</Run>
+                            <Run Typography.Variants="Subscript">1</Run>
+                            <Run>) ∙ cos(γ∙∆р</Run>
+                            <Run Typography.Variants="Subscript">2</Run>
+                            <Run>√(T</Run>
+                            <Run Typography.Variants="Subscript">1</Run>
+                            <Run Typography.Variants="Superscript">2</Run>
+                            <Run> + T</Run>
+                            <Run Typography.Variants="Subscript">2</Run>
+                            <Run Typography.Variants="Superscript">2</Run>
+                            <Run>)</Run>
+                        </TextBlock>
+                    </Label.Content>
+                </Label>
+                <Label Grid.Row="1" Grid.Column="0" Content="Вид экстремума:" HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" FontSize="16" Margin="0, -6, 0, 0"/>
+                <RadioButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">Мининмум</RadioButton>
+                <RadioButton Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">Максимум</RadioButton>
+                <GroupBox Grid.Row="2" Grid.ColumnSpan="3" Header="Параметры математической модели">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Content="Перепад давлений ∆р1, КПа :" VerticalAlignment="Center" FontSize="16"/>
+                        <Label Grid.Row="1" Content="Перепад давлений ∆р2, КПа :" VerticalAlignment="Center" FontSize="16"/>
+                        <TextBox Grid.Row="0" Grid.Column="1"></TextBox>
+                        <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="3" Grid.ColumnSpan="3" Header="Ограничения">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBox Grid.Row="0" Grid.Column="0"></TextBox>
+                        <Label Grid.Row="0" Grid.Column="1" Content="&lt; T1 &lt;" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="2"></TextBox>
+                        <Label Grid.Row="0" Grid.Column="3" Content="°C" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="0"></TextBox>
+                        <Label Grid.Row="1" Grid.Column="1" Content="&lt; T2 &lt;" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="2"></TextBox>
+                        <Label Grid.Row="1" Grid.Column="3" Content="°C" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Label Grid.Row="2" Grid.ColumnSpan="2" Content="T2 - T1 &lt;= " FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Row="2" Grid.Column="2"></TextBox>
+                        <Label Grid.Row="2" Grid.Column="3" Content="°C" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="4" Grid.ColumnSpan="3" Header="Параметры метода">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="Погрешность вычислений (epsilon):" VerticalAlignment="Center"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Максимальное количество итераций:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1"></TextBox>
+                        <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Результаты расчёта" Grid.Row="2" Grid.Column="1" Margin="5, 5, 5, 5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.07*"/>
+                    <RowDefinition Height="0.07*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Значение целевой функции: Z = p * V * t = " FontSize="14"/>
+                <Label Grid.Row="1" Content="Значения аргументов целевой функции для достижения экстремума: " FontSize="14"/>
+                <TabControl Grid.Row="2">
+                    <TabItem Header="Таблица"></TabItem>
+                    <TabItem Header="Двумерный график"></TabItem>
+                    <TabItem Header="Трёхмерный график"></TabItem>
+                </TabControl>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>
