@@ -21,7 +21,8 @@
             <MenuItem Name="Calculate" Header="Провести расчёт" Click="Calculate_Click"></MenuItem>
         </Menu>
         <Label Content="Метод оптимизации:" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-        <ComboBox x:Name="Method" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="230"></ComboBox>
+        <ComboBox x:Name="Method" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250"
+                  Margin="10, 0, 0, 0"></ComboBox>
         <ComboBox x:Name="Variant" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="230" Margin="70, 0, 0,0"></ComboBox>
         <Label Content="Вариант:" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
         <GroupBox Header="Исходные данные" Grid.Row="2" Grid.Column="0" Margin="5, 5, 5, 5" >
@@ -60,7 +61,7 @@
                 </Label>
                 <Label Grid.Row="1" Grid.Column="0" Content="Вид экстремума:" HorizontalAlignment="Center" 
                        VerticalAlignment="Center" FontSize="16" Margin="0, -6, 0, 0"/>
-                <RadioButton x:Name="Min" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True">Мининмум</RadioButton>
+                <RadioButton x:Name="Min" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding IsMin}">Мининмум</RadioButton>
                 <RadioButton x:Name="Max" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">Максимум</RadioButton>
                 <GroupBox Grid.Row="2" Grid.ColumnSpan="3" Header="Параметры математической модели">
                     <Grid>
@@ -74,8 +75,26 @@
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Content="Перепад давлений ∆р1, КПа :" VerticalAlignment="Center" FontSize="16"/>
                         <Label Grid.Row="1" Content="Перепад давлений ∆р2, КПа :" VerticalAlignment="Center" FontSize="16"/>
-                        <TextBox x:Name="DeltaPressure1" Text="1" Grid.Row="0" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox x:Name="DeltaPressure2" Text="1" Grid.Row="1" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBox x:Name="DeltaPressure1" Grid.Row="0" Grid.Column="1" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="P1" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox x:Name="DeltaPressure2" Grid.Row="1" Grid.Column="1" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="P2" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </Grid>
                 </GroupBox>
                 <GroupBox Grid.Row="3" Grid.ColumnSpan="3" Header="Ограничения">
@@ -91,16 +110,61 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBox x:Name="FirstMin" Text="-3" Grid.Row="0" Grid.Column="0" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBox x:Name="FirstMin" Grid.Row="0" Grid.Column="0" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="FirstArgMin" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         <Label Grid.Row="0" Grid.Column="1" Content="⩽ T1 ⩽;" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="FirstMax" Text="0" Grid.Row="0" Grid.Column="2" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBox x:Name="FirstMax" Grid.Row="0" Grid.Column="2" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="FirstArgMax" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         <Label Grid.Row="0" Grid.Column="3" Content="°C" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="SecondMin" Text="-0,5" Grid.Row="1" Grid.Column="0" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBox x:Name="SecondMin" Grid.Row="1" Grid.Column="0" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="SecondArgMin" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         <Label Grid.Row="1" Grid.Column="1" Content="⩽ T2 ⩽" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="SecondMax" Text="3" Grid.Row="1" Grid.Column="2" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBox x:Name="SecondMax" Grid.Row="1" Grid.Column="2" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="SecondArgMax" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         <Label Grid.Row="1" Grid.Column="3" Content="°C" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <Label Grid.Row="2" Grid.ColumnSpan="2" Content="T2 - T1 ⩽ " FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                        <TextBox x:Name="ThirdLimit" Text="3" Grid.Row="2" Grid.Column="2" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBox x:Name="ThirdLimit" Grid.Row="2" Grid.Column="2" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="ThirdLimit" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         <Label Grid.Row="2" Grid.Column="3" Content="°C" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Grid>
                 </GroupBox>
@@ -118,12 +182,48 @@
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="Погрешность вычислений (epsilon):" VerticalAlignment="Center"/>
                         <Label Grid.Row="1" Grid.Column="0" Content="Максимальное количество итераций:" VerticalAlignment="Center"/>
-                        <TextBox x:Name="Epsilon" Text="0,001" Grid.Row="0" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
-                        <TextBox x:Name="MaxIter" Text="20" Grid.Row="1" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBox x:Name="Epsilon" Grid.Row="0" Grid.Column="1" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="MinEpsilon" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox x:Name="MaxIter" Grid.Row="1" Grid.Column="1" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="MaxItertions" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         <Label Grid.Row="2" Grid.Column="0" Content="T1 стартовая:" VerticalAlignment="Center"/>
                         <Label Grid.Row="3" Grid.Column="0" Content="T2 стартовая:" VerticalAlignment="Center"/>
-                        <TextBox x:Name="X1Start" Grid.Row="2" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
-                        <TextBox x:Name="X2Start" Grid.Row="3" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBox x:Name="X1Start" Grid.Row="2" Grid.Column="1" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="X1" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox x:Name="X2Start" Grid.Row="3" Grid.Column="1" FontSize="18" TextAlignment="Center" 
+                                 VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
+                            <TextBox.Text>
+                                <Binding Path="X2" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </Grid>
                 </GroupBox>
             </Grid>
