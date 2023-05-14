@@ -59,6 +59,8 @@ namespace OptimizationCourseProject {
             }
             Method.ItemsSource = methods;
             Variant.ItemsSource = vars;
+            Method.SelectedIndex = 0;
+            Variant.SelectedIndex = 0;
         }
 
         public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject {
@@ -80,15 +82,23 @@ namespace OptimizationCourseProject {
             }
             Result.Content = Result.Content.ToString().Substring(0, initResultLength);
             Arguments.Content = Arguments.Content.ToString().Substring(0, initArgsLength);
-            try {
-                List<Point> points = opt.RandomSearch();
-                ResultTable.ItemsSource = points;
-                Point result = points.Last();
-                Result.Content += result.Value.ToString() + " у. е.";
-                Arguments.Content += $"T1 = {Math.Round(result.X1, 2)} °C T2 = {Math.Round(result.X2, 2)} °C";
-            }
-            catch (PointException exc) {
-                MessageBox.Show(exc.Message, "Ошибка");
+            switch (Method.SelectedIndex) {
+                case 0: {
+                        try {
+                            List<Point> points = opt.RandomSearch();
+                            ResultTable.ItemsSource = points;
+                            Point result = points.Last();
+                            Result.Content += result.Value.ToString() + " у. е.";
+                            Arguments.Content += $"T1 = {Math.Round(result.X1, 2)} °C T2 = {Math.Round(result.X2, 2)} °C";
+                        }
+                        catch (PointException exc) {
+                            MessageBox.Show(exc.Message, "Ошибка");
+                        }
+                        break;
+                    }
+                default: {
+                        break;
+                    }
             }
         }
 

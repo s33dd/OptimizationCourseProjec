@@ -80,7 +80,7 @@
                             <TextBox.Text>
                                 <Binding Path="P1" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -90,7 +90,7 @@
                             <TextBox.Text>
                                 <Binding Path="P2" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -115,7 +115,7 @@
                             <TextBox.Text>
                                 <Binding Path="FirstArgMin" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -126,7 +126,7 @@
                             <TextBox.Text>
                                 <Binding Path="FirstArgMax" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -137,7 +137,7 @@
                             <TextBox.Text>
                                 <Binding Path="SecondArgMin" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -148,7 +148,7 @@
                             <TextBox.Text>
                                 <Binding Path="SecondArgMax" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -160,7 +160,7 @@
                             <TextBox.Text>
                                 <Binding Path="ThirdLimit" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -187,7 +187,7 @@
                             <TextBox.Text>
                                 <Binding Path="MinEpsilon" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -195,9 +195,9 @@
                         <TextBox x:Name="MaxIter" Grid.Row="1" Grid.Column="1" FontSize="18" TextAlignment="Center" 
                                  VerticalAlignment="Center" Validation.Error="TextBoxValidation_Error">
                             <TextBox.Text>
-                                <Binding Path="MaxItertions" NotifyOnValidationError="True">
+                                <Binding Path="MaxIterations" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -209,7 +209,7 @@
                             <TextBox.Text>
                                 <Binding Path="X1" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -219,7 +219,7 @@
                             <TextBox.Text>
                                 <Binding Path="X2" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <ExceptionValidationRule />
+                                        <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>

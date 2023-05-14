@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Interop;
 
 namespace OptimizationCourseProject {
-    public class Optimization {
+    public class Optimization : IDataErrorInfo {
         private const double _gamma = 3.14;
         public double X1 { get; set; }
         public double X2 { get; set; }
@@ -17,9 +19,43 @@ namespace OptimizationCourseProject {
         public double SecondArgMax { get; set; }
         public double ThirdLimit { get; set; }
         public int N { get; set; }
-        public int MaxItertions { get; set; }
+        public int MaxIterations { get; set; }
         public double MinEpsilon { get; set; }
         public bool IsMin { get; set; }
+        public string this[string columnName] {
+            get {
+                string error = string.Empty;
+                switch (columnName) {
+                    case "P1":
+                        if (P1 <= 0) {
+                            error = "Перепад давлений должен быть больше нуля.";
+                        }
+                        break;
+                    case "P2":
+                        if (P2 <= 0) {
+                            error = "Перепад давлений должен быть больше нуля.";
+                        }
+                        break;
+                    case "MaxIterations":
+                        if (MaxIterations <= 0) {
+                            error = "Количество итераций должно быть больше нуля.";
+                        }
+                        break;
+                    case "MinEpsilon":
+                        if (MinEpsilon <= 0) {
+                            error = "Точность должна быть больше нуля.";
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return error;
+            }
+
+        }
+        public string Error {
+            get { throw new NotImplementedException(); }
+        }
         public Optimization() {
             IsMin = true;
             P1 = 1;
@@ -30,7 +66,7 @@ namespace OptimizationCourseProject {
             SecondArgMax = 3;
             ThirdLimit = 3;
             N = 2;
-            MaxItertions = 20;
+            MaxIterations = 20;
             MinEpsilon = 0.01;
 
         }
@@ -42,7 +78,7 @@ namespace OptimizationCourseProject {
             result.Add(new Point(Math.Round(X1, 3), Math.Round(X2, 3), this));
             int count = 0;
             double epsilon = 1;
-            while (count < MaxItertions) {
+            while (count < MaxIterations) {
                 count++;
                 double[] alpha;
                 double step = 1.0;
