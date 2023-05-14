@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OptimizationCourseProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1200">
+        Title="MainWindow" Height="700" Width="1200">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.7*"/>
@@ -18,11 +18,11 @@
         </Grid.RowDefinitions>
         <Menu Grid.ColumnSpan="2" Grid.Row="0">
             <MenuItem Header="Сменить пользователя"></MenuItem>
-            <MenuItem Header="Провести расчёт"></MenuItem>
+            <MenuItem Name="Calculate" Header="Провести расчёт" Click="Calculate_Click"></MenuItem>
         </Menu>
         <Label Content="Метод оптимизации:" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-        <ComboBox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="230"></ComboBox>
-        <ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="230" Margin="70, 0, 0,0"></ComboBox>
+        <ComboBox x:Name="Method" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="230"></ComboBox>
+        <ComboBox x:Name="Variant" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="230" Margin="70, 0, 0,0"></ComboBox>
         <Label Content="Вариант:" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
         <GroupBox Header="Исходные данные" Grid.Row="2" Grid.Column="0" Margin="5, 5, 5, 5" >
             <Grid>
@@ -60,8 +60,8 @@
                 </Label>
                 <Label Grid.Row="1" Grid.Column="0" Content="Вид экстремума:" HorizontalAlignment="Center" 
                        VerticalAlignment="Center" FontSize="16" Margin="0, -6, 0, 0"/>
-                <RadioButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">Мининмум</RadioButton>
-                <RadioButton Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">Максимум</RadioButton>
+                <RadioButton x:Name="Min" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True">Мининмум</RadioButton>
+                <RadioButton x:Name="Max" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">Максимум</RadioButton>
                 <GroupBox Grid.Row="2" Grid.ColumnSpan="3" Header="Параметры математической модели">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -74,8 +74,8 @@
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Content="Перепад давлений ∆р1, КПа :" VerticalAlignment="Center" FontSize="16"/>
                         <Label Grid.Row="1" Content="Перепад давлений ∆р2, КПа :" VerticalAlignment="Center" FontSize="16"/>
-                        <TextBox Grid.Row="0" Grid.Column="1"></TextBox>
-                        <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
+                        <TextBox x:Name="DeltaPressure1" Text="1" Grid.Row="0" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="DeltaPressure2" Text="1" Grid.Row="1" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
                     </Grid>
                 </GroupBox>
                 <GroupBox Grid.Row="3" Grid.ColumnSpan="3" Header="Ограничения">
@@ -91,16 +91,16 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBox Grid.Row="0" Grid.Column="0"></TextBox>
-                        <Label Grid.Row="0" Grid.Column="1" Content="&lt; T1 &lt;" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox Grid.Row="0" Grid.Column="2"></TextBox>
+                        <TextBox x:Name="FirstMin" Text="-3" Grid.Row="0" Grid.Column="0" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <Label Grid.Row="0" Grid.Column="1" Content="⩽ T1 ⩽;" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="FirstMax" Text="0" Grid.Row="0" Grid.Column="2" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
                         <Label Grid.Row="0" Grid.Column="3" Content="°C" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox Grid.Row="1" Grid.Column="0"></TextBox>
-                        <Label Grid.Row="1" Grid.Column="1" Content="&lt; T2 &lt;" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox Grid.Row="1" Grid.Column="2"></TextBox>
+                        <TextBox x:Name="SecondMin" Text="-0,5" Grid.Row="1" Grid.Column="0" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <Label Grid.Row="1" Grid.Column="1" Content="⩽ T2 ⩽" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="SecondMax" Text="3" Grid.Row="1" Grid.Column="2" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
                         <Label Grid.Row="1" Grid.Column="3" Content="°C" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <Label Grid.Row="2" Grid.ColumnSpan="2" Content="T2 - T1 &lt;= " FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                        <TextBox Grid.Row="2" Grid.Column="2"></TextBox>
+                        <Label Grid.Row="2" Grid.ColumnSpan="2" Content="T2 - T1 ⩽ " FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <TextBox x:Name="ThirdLimit" Text="3" Grid.Row="2" Grid.Column="2" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
                         <Label Grid.Row="2" Grid.Column="3" Content="°C" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Grid>
                 </GroupBox>
@@ -113,11 +113,17 @@
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="Погрешность вычислений (epsilon):" VerticalAlignment="Center"/>
                         <Label Grid.Row="1" Grid.Column="0" Content="Максимальное количество итераций:" VerticalAlignment="Center"/>
-                        <TextBox Grid.Row="0" Grid.Column="1"></TextBox>
-                        <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
+                        <TextBox x:Name="Epsilon" Text="0,001" Grid.Row="0" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBox x:Name="MaxIter" Text="20" Grid.Row="1" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <Label Grid.Row="2" Grid.Column="0" Content="T1 стартовая:" VerticalAlignment="Center"/>
+                        <Label Grid.Row="3" Grid.Column="0" Content="T2 стартовая:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="X1Start" Grid.Row="2" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBox x:Name="X2Start" Grid.Row="3" Grid.Column="1" FontSize="18" TextAlignment="Center" VerticalAlignment="Center"></TextBox>
                     </Grid>
                 </GroupBox>
             </Grid>
@@ -129,10 +135,18 @@
                     <RowDefinition Height="0.07*"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="Значение целевой функции: Z = p * V * t = " FontSize="14"/>
-                <Label Grid.Row="1" Content="Значения аргументов целевой функции для достижения экстремума: " FontSize="14"/>
+                <Label Name="Result" Grid.Row="0" Content="Значение целевой функции: Z = p * V * t = " FontSize="14"/>
+                <Label Name="Arguments" Grid.Row="1" Content="Значения аргументов целевой функции для достижения экстремума: " FontSize="14"/>
                 <TabControl Grid.Row="2">
-                    <TabItem Header="Таблица"></TabItem>
+                    <TabItem Header="Таблица">
+                        <DataGrid x:Name="ResultTable" FontSize="18" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="T1" Binding="{Binding Path=X1}" Width="1*"/>
+                                <DataGridTextColumn Header="T2" Binding="{Binding Path=X2}" Width="1*"/>
+                                <DataGridTextColumn Header="Z" Binding="{Binding Path=Value}" Width="1*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
                     <TabItem Header="Двумерный график"></TabItem>
                     <TabItem Header="Трёхмерный график"></TabItem>
                 </TabControl>
