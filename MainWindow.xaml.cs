@@ -88,6 +88,19 @@ namespace OptimizationCourseProject {
                         }
                         break;
                     }
+                case 1: {
+                        try {
+                            List<Point> points = opt.Box();
+                            ResultTable.ItemsSource = points;
+                            Point result = points.Last();
+                            Result.Content += result.Value.ToString() + " у. е.";
+                            Arguments.Content += $"T1 = {Math.Round(result.X1, 2)} °C T2 = {Math.Round(result.X2, 2)} °C";
+                        }
+                        catch (PointException exc) {
+                            MessageBox.Show(exc.Message, "Ошибка");
+                        }
+                        break;
+                    }
                 default: {
                         break;
                     }
