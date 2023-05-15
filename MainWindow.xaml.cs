@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using static Plot3D.Graph3D;
+using static Plot3D.ColorSchema;
 
 namespace OptimizationCourseProject {
     /// <summary>
@@ -72,12 +74,13 @@ namespace OptimizationCourseProject {
             foreach (TextBox tb in FindVisualChildren<TextBox>(this)) {
                 tb.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             }
+            List<Point> points = new List<Point>();
             Result.Content = Result.Content.ToString().Substring(0, initResultLength);
             Arguments.Content = Arguments.Content.ToString().Substring(0, initArgsLength);
             switch (Method.SelectedIndex) {
                 case 0: {
                         try {
-                            List<Point> points = opt.RandomSearch();
+                            points = opt.RandomSearch();
                             ResultTable.ItemsSource = points;
                             Point result = points.Last();
                             Result.Content += result.Value.ToString() + " у. е.";
@@ -90,7 +93,7 @@ namespace OptimizationCourseProject {
                     }
                 case 1: {
                         try {
-                            List<Point> points = opt.Box();
+                            points = opt.Box();
                             ResultTable.ItemsSource = points;
                             Point result = points.Last();
                             Result.Content += result.Value.ToString() + " у. е.";
@@ -105,6 +108,28 @@ namespace OptimizationCourseProject {
                         break;
                     }
             }
+            Graph3d.Raster = eRaster.Labels;
+            System.Drawing.Color[] c_Colors = GetSchema(eSchema.Hot);
+            Graph3d.SetColorScheme(c_Colors, 3);
+            int stepQuantity = 30;
+            cPoint3D[,] points3d = new cPoint3D[stepQuantity, stepQuantity];
+            int row = 0;
+            int col = 0;
+            double stepX1 = (opt.FirstArgMax - opt.FirstArgMin) / stepQuantity;
+            double stepX2 = (opt.SecondArgMax - opt.SecondArgMin) / stepQuantity;
+            for (double i = opt.FirstArgMin; Math.Round(i, 1) < opt.FirstArgMax; i += stepX1) {
+                for (double j = opt.SecondArgMin; Math.Round(j, 1) < opt.SecondArgMax; j += stepX2) {
+                    double value = Math.Round(opt.FunctionValue(i, j), 3);
+                    points3d[row, col] = new cPoint3D(i, j, value);
+                    col++;
+                }
+                row++;
+                col = 0;
+            }
+            Graph3d.AxisX_Legend = "T1, °C";
+            Graph3d.AxisY_Legend = "T2, °C";
+            Graph3d.AxisZ_Legend = "F, у.е.";
+            Graph3d.SetSurfacePoints(points3d, eNormalize.Separate);
         }
 
         private void TextBoxValidation_Error(object sender, ValidationErrorEventArgs e) {
@@ -115,6 +140,16 @@ namespace OptimizationCourseProject {
                 }
             }
             Calculate.IsEnabled = true;
+        }
+
+        private void Method_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (Method.SelectedIndex == 1) {
+                X1Start.IsEnabled = false;
+                X2Start.IsEnabled = false;
+            } else {
+                X1Start.IsEnabled = true;
+                X2Start.IsEnabled = true;
+            }
         }
     }
 }
