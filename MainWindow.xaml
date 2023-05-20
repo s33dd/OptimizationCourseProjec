@@ -31,6 +31,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1.2*"/>
+                    <RowDefinition Height="0.7*"/>
                     <RowDefinition/>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="2*"/>
@@ -61,11 +62,13 @@
                         </TextBlock>
                     </Label.Content>
                 </Label>
-                <Label Grid.Row="1" Grid.Column="0" Content="Вид экстремума:" HorizontalAlignment="Center" 
+				<Label Grid.Row="1" Grid.ColumnSpan="3" Content="Целевая функция:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+				<Label Grid.Row="1" Grid.ColumnSpan="3" Content="Z = p * V * t" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+				<Label Grid.Row="2" Grid.Column="0" Content="Вид экстремума:" HorizontalAlignment="Center" 
                        VerticalAlignment="Center" FontSize="16" Margin="0, -6, 0, 0"/>
-                <RadioButton x:Name="Min" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding IsMin}">Мининмум</RadioButton>
-                <RadioButton x:Name="Max" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">Максимум</RadioButton>
-                <GroupBox Grid.Row="2" Grid.ColumnSpan="3" Header="Параметры математической модели">
+                <RadioButton x:Name="Min" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding IsMin}">Мининмум</RadioButton>
+                <RadioButton x:Name="Max" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">Максимум</RadioButton>
+                <GroupBox Grid.Row="3" Grid.ColumnSpan="3" Header="Параметры математической модели">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -99,7 +102,7 @@
                         </TextBox>
                     </Grid>
                 </GroupBox>
-                <GroupBox Grid.Row="3" Grid.ColumnSpan="3" Header="Ограничения">
+                <GroupBox Grid.Row="4" Grid.ColumnSpan="3" Header="Ограничения">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -170,7 +173,7 @@
                         <Label Grid.Row="2" Grid.Column="3" Content="°C" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Grid>
                 </GroupBox>
-                <GroupBox Grid.Row="4" Grid.ColumnSpan="3" Header="Параметры метода">
+                <GroupBox Grid.Row="5" Grid.ColumnSpan="3" Header="Параметры метода">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -237,7 +240,7 @@
                     <RowDefinition Height="0.07*"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Label Name="Result" Grid.Row="0" Content="Значение целевой функции: Z = p * V * t = " FontSize="14"/>
+                <Label Name="Result" Grid.Row="0" Content="Значение целевой функции: Z = " FontSize="14"/>
                 <Label Name="Arguments" Grid.Row="1" Content="Значения аргументов целевой функции для достижения экстремума: " FontSize="14"/>
                 <TabControl Grid.Row="2">
                     <TabItem Header="Таблица">
