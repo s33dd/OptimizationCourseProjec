@@ -110,7 +110,7 @@ namespace OptimizationCourseProject {
                     }
             }
             Draw3dChart();
-            Draw2dChart();
+            Draw2dChart(points);
         }
 
         private void TextBoxValidation_Error(object sender, ValidationErrorEventArgs e) {
@@ -153,11 +153,10 @@ namespace OptimizationCourseProject {
             delRendererFunction function = opt.FunctionValue;
 
 			Graph3d.SetFunction(function, start, end, 2.0, eNormalize.MaintainXY);
-            //Graph3d.SetSurfacePoints(points3d, eNormalize.Separate);
         }
 
-        private void Draw2dChart() {
-            HeatMap chart = new HeatMap(opt);
+        private void Draw2dChart(List<Point> points) {
+            HeatMap chart = new HeatMap(opt, points);
             Plot.DataContext = chart;
         }
 
