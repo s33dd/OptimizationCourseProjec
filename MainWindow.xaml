@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OptimizationCourseProject"
         xmlns:Graph3d="clr-namespace:Plot3D"
+        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1200">
     <Grid>
@@ -248,7 +249,9 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </TabItem>
-                    <TabItem Header="Двумерный график"></TabItem>
+                    <TabItem Header="Двумерный график">
+                        <oxy:PlotView x:Name="Plot" Model="{Binding Model}"/>
+                    </TabItem>
                     <TabItem Header="Трёхмерный график">
                         <WindowsFormsHost>
                             <Graph3d:Graph3D x:Name="Graph3d"/>

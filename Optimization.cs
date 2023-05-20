@@ -254,8 +254,8 @@ namespace OptimizationCourseProject {
                     }
                 }
                 while (!PointCheckSecondLimits(X1, X2)) {
-                    X1 = 1 / 2 * (X1 + center.X1);
-                    X2 = 1 / 2 * (X2 + center.X2);
+                    X1 = 1 / 2.0 * (X1 + center.X1);
+                    X2 = 1 / 2.0 * (X2 + center.X2);
                 }
 
                 //Вычисление нового значения ц.ф.
