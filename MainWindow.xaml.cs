@@ -17,44 +17,29 @@ namespace OptimizationCourseProject {
         private int initResultLength;
         private int initArgsLength;
         private Optimization opt;
+        private bool isAdmin = false;
+        private string pass = "admin";
         public MainWindow() {
             InitializeComponent();
             initResultLength = Result.Content.ToString().Length;
             initArgsLength = Arguments.Content.ToString().Length;
             opt = new Optimization();
             this.DataContext = opt;
-            FileInfo methodsFile = new FileInfo("methods.txt ");
-            if (!methodsFile.Exists) {
-                methodsFile.Create().Close();
-                using (StreamWriter sw = methodsFile.AppendText()) {
-                    sw.WriteLine("Метод случайных направлений (мод.)");
-                    sw.WriteLine("Метод Бокса");
-                }
-            }
-            FileInfo varsFile = new FileInfo("variants.txt ");
-            if (!varsFile.Exists) {
-                varsFile.Create().Close();
-                using (StreamWriter sw = varsFile.AppendText()) {
-                    sw.WriteLine("Вариант 11");
-                }
-            }
-            List<string> methods = new List<string>();
-            List<string> vars = new List<string>();
-            using (StreamReader sr = methodsFile.OpenText()) {
-                string s;
-                while ((s = sr.ReadLine()) != null) {
-                    methods.Add(s);
-                }
-            }
-            using (StreamReader sr = varsFile.OpenText()) {
-                string s;
-                while ((s = sr.ReadLine()) != null) {
-                    vars.Add(s);
-                }
-            }
-            Method.ItemsSource = methods;
-            Variant.ItemsSource = vars;
-            Method.SelectedIndex = 0;
+			FileInfo passFile = new FileInfo("pass.txt");
+			if (!passFile.Exists) {
+				passFile.Create().Close();
+				using (StreamWriter sw = passFile.AppendText()) {
+					sw.WriteLine(pass);
+				}
+			}
+			using (StreamReader sr = passFile.OpenText()) {
+				string s;
+				while ((s = sr.ReadLine()) != null) {
+					pass = s;
+				}
+			}
+            InitComboBoxes();
+			Method.SelectedIndex = 0;
             Variant.SelectedIndex = 0;
         }
 
@@ -106,7 +91,7 @@ namespace OptimizationCourseProject {
                         break;
                     }
                 default: {
-                        break;
+                        return;
                     }
             }
             Draw3dChart();
@@ -169,5 +154,73 @@ namespace OptimizationCourseProject {
                 X2Start.IsEnabled = true;
             }
         }
-    }
+
+		private void ChangeUsrBtn_Click(object sender, RoutedEventArgs e) {
+            switch (isAdmin) {
+                case true: {
+                        this.Title = "Исследователь";
+                        isAdmin = false;
+                        NewMethod.Visibility = Visibility.Collapsed;
+                        NewVar.Visibility = Visibility.Collapsed;
+                        break;
+                    }
+                case false: {
+                        Pass dialog = new Pass(pass);
+                        if (dialog.ShowDialog() == true) {
+                            this.Title = "Администратор";
+                            isAdmin = true;
+                            NewMethod.Visibility = Visibility.Visible;
+                            NewVar.Visibility = Visibility.Visible;
+                        }
+                        break;
+                    }
+            }
+		}
+
+		private void NewMethod_Click(object sender, RoutedEventArgs e) {
+            EditFiles window = new EditFiles("methods.txt");
+            window.ShowDialog();
+            InitComboBoxes();
+		}
+
+		private void NewVar_Click(object sender, RoutedEventArgs e) {
+            EditFiles window = new EditFiles("variants.txt");
+            window.ShowDialog();
+            InitComboBoxes();
+		}
+
+        private void InitComboBoxes() {
+			FileInfo methodsFile = new FileInfo("methods.txt");
+			if (!methodsFile.Exists) {
+				methodsFile.Create().Close();
+				using (StreamWriter sw = methodsFile.AppendText()) {
+					sw.WriteLine("Метод случайных направлений (мод.)");
+					sw.WriteLine("Метод Бокса");
+				}
+			}
+			FileInfo varsFile = new FileInfo("variants.txt");
+			if (!varsFile.Exists) {
+				varsFile.Create().Close();
+				using (StreamWriter sw = varsFile.AppendText()) {
+					sw.WriteLine("Вариант 11");
+				}
+			}
+			List<string> methods = new List<string>();
+			List<string> vars = new List<string>();
+			using (StreamReader sr = methodsFile.OpenText()) {
+				string s;
+				while ((s = sr.ReadLine()) != null) {
+					methods.Add(s);
+				}
+			}
+			using (StreamReader sr = varsFile.OpenText()) {
+				string s;
+				while ((s = sr.ReadLine()) != null) {
+					vars.Add(s);
+				}
+			}
+			Method.ItemsSource = methods;
+			Variant.ItemsSource = vars;
+		}
+	}
 }
