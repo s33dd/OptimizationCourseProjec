@@ -162,7 +162,8 @@ namespace OptimizationCourseProject {
                     fixedVertices.Add(vertex);
                 }
                 if (j == vertexQuantity - 1 & fixedVertices.Count == 0) {
-                    j = 0;
+                    j = -1;
+                    tempVertices.Clear();
                 }
             }
             //Проверка на незафиксированные вершины и смещение
@@ -256,32 +257,46 @@ namespace OptimizationCourseProject {
                 while (!PointCheckSecondLimits(X1, X2)) {
                     X1 = 1 / 2.0 * (X1 + center.X1);
                     X2 = 1 / 2.0 * (X2 + center.X2);
-                }
+				}
 
                 //Вычисление нового значения ц.ф.
                 double value = FunctionValue(X1, X2);
                 switch (IsMin) {
                     case true: {
-                            while (value > verticesValues[worstVertex]) {
-                                X1 = 1 / 2.0 * (X1 + fixedVertices[bestVertex].X1);
-                                X2 = 1 / 2.0 * (X2 + fixedVertices[bestVertex].X2);
-                                value = FunctionValue(X1, X2);
+							int attempt = 0;
+							bool success = true;
+							while (value >= verticesValues[worstVertex]) {
+								if (++attempt > 100) {
+									success = false;
+									break;
+								}
+								MoveWorstVertex(fixedVertices[bestVertex]);
+								value = FunctionValue(X1, X2);
                             }
-                            Point newVertex = new Point(Math.Round(X1, 3), Math.Round(X2, 3), this);
-                            fixedVertices[worstVertex] = newVertex;
-                            verticesValues[worstVertex] = newVertex.Value;
-                            break;
-                        }
+							if (success) {
+								Point newVertex = new Point(Math.Round(X1, 3), Math.Round(X2, 3), this);
+								fixedVertices[worstVertex] = newVertex;
+								verticesValues[worstVertex] = newVertex.Value;
+							}
+							break;
+						}
                     case false: {
-                            while (value < verticesValues[worstVertex]) {
-                                X1 = 1 / 2.0 * (X1 + fixedVertices[bestVertex].X1);
-                                X2 = 1 / 2.0 * (X2 + fixedVertices[bestVertex].X2);
-                                value = FunctionValue(X1, X2);
-                            }
-                            Point newVertex = new Point(Math.Round(X1, 3), Math.Round(X2, 3), this);
-                            fixedVertices[worstVertex] = newVertex;
-                            verticesValues[worstVertex] = newVertex.Value;
-                            break;
+                            int attempt = 0;
+                            bool success = true;
+                            while (value <= verticesValues[worstVertex]) {
+                                if (++attempt > 100) {
+                                    success = false; 
+                                    break;
+                                }
+                                MoveWorstVertex(fixedVertices[bestVertex]);
+								value = FunctionValue(X1, X2);
+							}
+                            if (success) {
+								Point newVertex = new Point(Math.Round(X1, 3), Math.Round(X2, 3), this);
+								fixedVertices[worstVertex] = newVertex;
+								verticesValues[worstVertex] = newVertex.Value;
+							}
+							break;
                         }
                 }
             }
@@ -302,6 +317,10 @@ namespace OptimizationCourseProject {
                 return true;
             }
         }
+        private void MoveWorstVertex(Point bestVertex) {
+			X1 = 1 / 2.0 * (X1 + bestVertex.X1);
+			X2 = 1 / 2.0 * (X2 + bestVertex.X2);
+		}
         private bool PointCheckSecondLimits(double x1, double x2) {
             if (x2 - x1 > ThirdLimit) {
                 return false;
